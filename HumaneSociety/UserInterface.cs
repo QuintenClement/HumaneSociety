@@ -15,10 +15,12 @@ namespace HumaneSociety
                 Console.WriteLine(option);
             }
         }
+
         public static void DisplayUserOptions(string options)
         {
             Console.WriteLine(options);
         }
+
         public static string GetUserInput()
         {
             string input = Console.ReadLine();
@@ -34,9 +36,9 @@ namespace HumaneSociety
                 default:
                     break;
             }
-
             return input;
         }
+
         public static string GetStringData(string parameter, string target)
         {
             string data;
@@ -58,6 +60,7 @@ namespace HumaneSociety
                 return false;
             }
         }
+
         public static bool? GetBitData()
         {
             string input = GetUserInput();
@@ -132,7 +135,7 @@ namespace HumaneSociety
         public static void DisplayAnimalInfo(Animal animal)
         {
             Room animalRoom = Query.GetRoom(animal.AnimalId);
-            List<string> info = new List<string>() {"ID: " + animal.AnimalId, animal.Name, animal.Age + "years old", "Demeanour: " + animal.Demeanor, "Kid friendly: " + BoolToYesNo(animal.KidFriendly), "pet friendly: " + BoolToYesNo(animal.PetFriendly), $"Location: " + animalRoom.RoomId, "Weight: " + animal.Weight.ToString(),  "Food amoumnt in cups:" + animal.DietPlan.FoodAmountInCups};
+            List<string> info = new List<string>() {"ID: " + animal.AnimalId, animal.Name, animal.Age + " years old", "Demeanor: " + animal.Demeanor, "Kid friendly: " + BoolToYesNo(animal.KidFriendly), "pet friendly: " + BoolToYesNo(animal.PetFriendly), $"Room Number: " + animalRoom.RoomNumber, "Weight: " + animal.Weight.ToString(),  "Food amoumnt in cups:" + animal.DietPlan.FoodAmountInCups};
             DisplayUserOptions(info);
             Console.ReadLine();
 
@@ -163,6 +166,7 @@ namespace HumaneSociety
                 return false;
             }
         }
+
         public static Dictionary<int, string> GetAnimalCriteria()
         {
             Dictionary<int, string> searchParameters = new Dictionary<int, string>();
@@ -217,6 +221,33 @@ namespace HumaneSociety
                 default:
                     UserInterface.DisplayUserOptions("Input not recognized please try agian");
                     return searchParameters;
+            }
+        }
+        internal static void DisplayCategory()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Console.Clear();
+            Console.WriteLine("Current Category List:\n");
+            var category = db.Categories.Select(c => c).ToList();
+            {
+                foreach (Category list in category)
+                {
+                    Console.WriteLine(list.Name);
+                }
+            }
+        }
+
+        internal static void DisplayDietPlan()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Console.Clear();
+            Console.WriteLine("Current Diet Plans Avaiable:\n");
+            var dietPlan = db.DietPlans.Select(d => d).ToList();
+            {
+                foreach (DietPlan list in dietPlan)
+                {
+                    Console.WriteLine(list.Name);
+                }
             }
         }
     }

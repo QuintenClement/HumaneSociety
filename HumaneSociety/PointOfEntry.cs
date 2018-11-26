@@ -27,8 +27,8 @@ namespace HumaneSociety
                 case "customer":
                     customer = new Customer();
                     customer.LogIn();
-                     break;
-                case"2":
+                    break;
+                case "2":
                     customer = new Customer();
                     customer.LogIn();
                     break;
@@ -49,7 +49,23 @@ namespace HumaneSociety
                     Run();
                     return;
             }
-
         }
+
+    //    public static void Run()
+    //    {
+    //        List<string> options = new List<string>();
+
+    //        //Customer customer;
+    //        //customer = new Customer();
+    //        //customer.LogIn();
+
+    //        UserEmployee employee;
+    //        employee = new UserEmployee();
+    //        employee.LogIn();
+
+    //        //Admin admin;
+    //        //admin = new Admin();
+    //        //admin.LogIn();
+    //    }
     }
 }

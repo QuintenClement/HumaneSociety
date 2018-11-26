@@ -8,18 +8,23 @@ namespace HumaneSociety
 {
     class Admin : User
     {
+        //public override void LogIn()
+        //{
+        //    UserInterface.DisplayUserOptions("What is your password?");
+        //    string password = UserInterface.GetUserInput();
+        //    if (password.ToLower() != "poiuyt")
+        //    {
+        //        UserInterface.DisplayUserOptions("Incorrect password please try again or type exit");
+        //    }
+        //    else
+        //    {
+        //        RunUserMenus();
+        //    }
+        //}
+
         public override void LogIn()
         {
-            UserInterface.DisplayUserOptions("What is your password?");
-            string password = UserInterface.GetUserInput();
-            if (password.ToLower() != "poiuyt")
-            {
-                UserInterface.DisplayUserOptions("Incorrect password please try again or type exit");
-            }
-            else
-            {
-                RunUserMenus();
-            }
+            RunUserMenus();
         }
 
         protected override void RunUserMenus()

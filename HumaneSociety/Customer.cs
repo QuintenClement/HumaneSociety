@@ -23,6 +23,7 @@ namespace HumaneSociety
             }
             RunUserMenus();
         }
+
         protected override void LogInPreExistingUser()
         {
             List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE)" };
@@ -86,12 +87,14 @@ namespace HumaneSociety
             {
                 Query.Adopt(animal, client);
                 UserInterface.DisplayUserOptions("Adoption request sent we will hold $75 adoption fee until processed");
+                UserInterface.DisplayUserOptions("Press enter to continue");
+                Console.ReadLine();
             }
         }
 
         private void RunSearch()
         {
-            Console.Clear();            
+            Console.Clear();
             var animals = Query.SearchForAnimalByMultipleTraits().ToList();
             if (animals.Count > 1)
             {
@@ -122,8 +125,11 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions("Username already in use please try another username");
                 return GetUserName();
             }
-            return username;
+                return username;
+            
+            
         }
+
         public static bool CheckForValue<T>(List<T> items, T value)
         {
             if (items.Contains(value))
@@ -132,6 +138,7 @@ namespace HumaneSociety
             }
             return false;
         }
+
         public static string GetEmail()
         {
             var clients = Query.GetClients();
@@ -156,9 +163,10 @@ namespace HumaneSociety
             }
 
         }
+
         private static int GetState()
         {
-            UserInterface.DisplayUserOptions("Please enter your state (abbreviation or full state name");
+            UserInterface.DisplayUserOptions("Please enter your state (abbreviation or full state name)");
             string state = UserInterface.GetUserInput();
             var states = Query.GetStates();
             var stateNames = from territory in states select territory.Name.ToLower();
@@ -185,6 +193,7 @@ namespace HumaneSociety
                 return GetState();
             }
         }
+
         public bool CreateClient()
         {
             try
@@ -214,6 +223,7 @@ namespace HumaneSociety
                 return false;
             }
         }
+
         public bool CreateClient(IQueryable<Client> clients)
         {
             try
@@ -259,11 +269,12 @@ namespace HumaneSociety
                 return false;
             }
         }
+
         public void UpdateClientInfo()
         {
             List<string> options = new List<string>() { "What would you like to update? (Please enter number of option)", "1: Name", "2: Address", "3: Email", "4: Username", "5: Password", "6. Back" };
             int input = default(int);
-            while (input != 9)
+            while (input != 6)
             {
                 try
                 {
@@ -276,8 +287,8 @@ namespace HumaneSociety
                     UserInterface.DisplayUserOptions("Input not recognized please enter an integer number of the option you would like to update");
                 }
             }
-
         }
+
         private void RunUpdateInput(int input)
         {
             switch (input)
@@ -303,7 +314,6 @@ namespace HumaneSociety
                     UserInterface.DisplayUserOptions("You have reached this message in error please contact support or administator and give them code 10928849");
                     break;
             }
-
         }
 
         private void UpdatePassword()
@@ -345,6 +355,7 @@ namespace HumaneSociety
                 return GetZipCode();
             }
         }
+
         public void DisplayCurrentAddress(Client client)
         {
             string address = client.Address.AddressLine1;
@@ -353,6 +364,7 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Current address:");
             UserInterface.DisplayUserOptions($"{address}, {zipCode}, {state}");
         }
+
         public void UpdateAddress()
         {
             Console.Clear();
@@ -362,8 +374,8 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Please enter your street address");
             client.Address.AddressLine1 = UserInterface.GetUserInput();
             Query.UpdateClient(client);
-
         }
+
         public void UpdateName()
         {
             Console.Clear();
@@ -375,7 +387,6 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions("Please enter your new first name.");
                 client.FirstName = UserInterface.GetUserInput();
                 Query.UpdateClient(client);
-
             }
             else if (input == "last" || input == "2")
             {

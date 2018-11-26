@@ -24,6 +24,7 @@ namespace HumaneSociety
             }
             RunUserMenus();
         }
+
         protected override void RunUserMenus()
         {
             List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption" };
@@ -31,6 +32,7 @@ namespace HumaneSociety
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
         }
+
         private void RunUserInput(string input)
         {
             switch (input)
@@ -76,7 +78,6 @@ namespace HumaneSociety
                 int input = UserInterface.GetIntegerData();
                 ApproveAdoption(adoptions[input - 1]);
             }
-
         }
 
         private void ApproveAdoption(Adoption adoption)
@@ -173,12 +174,11 @@ namespace HumaneSociety
             }
             else
             {
-                if (UserInterface.GetBitData("Would you like to Update shots?"))
+                if (UserInterface.GetBitData("This animal doesn't have any shots. Would you like to give it shots?"))
                 {
                     Query.UpdateShot("booster", animal);
                 }
             }
-            
         }
 
         private void UpdateAnimal(Animal animal, Dictionary<int, string> updates = null)
@@ -190,7 +190,7 @@ namespace HumaneSociety
             List<string> options = new List<string>() { "Select Updates: (Enter number and choose finished when finished)", "1. Category", "2. Name", "3. Age", "4. Demeanor", "5. Kid friendly", "6. Pet friendly", "7. Weight", "8. Finished" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
-            if(input.ToLower() == "9" ||input.ToLower() == "finished")
+            if(input.ToLower() == "8" ||input.ToLower() == "finished")
             {
                 Query.EnterAnimalUpdate(animal, updates);
             }
@@ -243,20 +243,27 @@ namespace HumaneSociety
                 Query.RemoveAnimal(animal);
             }
         }
+
         private void AddAnimal()
         {
             Console.Clear();
             Animal animal = new Animal();
-            animal.CategoryId = Query.GetCategoryId();
+
+            string categoryID = UserInterface.GetStringData("category", "the animal's");
+            animal.CategoryId = Query.GetCategoryId(categoryID);
+
             animal.Name = UserInterface.GetStringData("name", "the animal's");
             animal.Age = UserInterface.GetIntegerData("age", "the animal's");
             animal.Demeanor = UserInterface.GetStringData("demeanor", "the animal's");
             animal.KidFriendly = UserInterface.GetBitData("the animal", "child friendly");
             animal.PetFriendly = UserInterface.GetBitData("the animal", "pet friendly");
             animal.Weight = UserInterface.GetIntegerData("the animal", "the weight of the");
-            animal.DietPlanId = Query.GetDietPlanId();
+
+            string dietPlanID = UserInterface.GetStringData("diet plan Id", "the animal's");
+            animal.DietPlanId = Query.GetDietPlanId(dietPlanID);
             Query.AddAnimal(animal);
         }
+
         protected override void LogInPreExistingUser()
         {
             List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE)" };
