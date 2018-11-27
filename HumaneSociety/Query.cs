@@ -134,8 +134,8 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
-
+            Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).Single();
+            
             return employeeFromDb;
         }
 
@@ -331,14 +331,17 @@ namespace HumaneSociety
             return db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId);
         }
 
-        internal static void UpdateShot(string booster, Animal animal)
+        internal static void UpdateShot(int booster, Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            AnimalShot updateAnimalShot = db.AnimalShots.Where(u => u.AnimalId == animal.AnimalId).DefaultIfEmpty().Single();
-
-            updateAnimalShot.AnimalId = animal.AnimalId;
-            updateAnimalShot.DateReceived = DateTime.Now;
-            db.SubmitChanges();
+            //give Shot shot to animal
+            AnimalShot updateAnimalShot = db.AnimalShots.Where(u => u.AnimalId == animal.AnimalId).SingleOrDefault();
+                AnimalShot realShot = new AnimalShot();
+                realShot.AnimalId = animal.AnimalId;
+                realShot.DateReceived = DateTime.Now;
+                realShot.ShotId = booster;
+                db.AnimalShots.InsertOnSubmit(realShot);          
+                db.SubmitChanges();
         }
 
         internal static void RemoveAnimal(Animal animal)
@@ -511,6 +514,15 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             return db.Rooms.Where(r => r.AnimalId == animalID).Single();
+        }
+
+        internal static void EditDietPlan(string editPlan)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            DietPlan updateDietPlan = db.DietPlans.FirstOrDefault(d => d.Name == editPlan);
+            updateDietPlan.FoodType = UserInterface.GetStringData("food type", "The diedt plan's new");
+            updateDietPlan.FoodAmountInCups = int.Parse(UserInterface.GetStringData("in cup serving", "The food amount"));
+            db.SubmitChanges();
         }
     }
 }

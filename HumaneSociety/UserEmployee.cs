@@ -53,11 +53,21 @@ namespace HumaneSociety
                     CheckAdoptions();
                     RunUserMenus();
                     return;
+                case "5":
+                    EditMeal();
+                    RunUserMenus();
+                    return;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please try again");
                     RunUserMenus();
                     return;
             }
+        }
+
+        private void EditMeal()
+        {
+            string editPlan = UserInterface.GetStringData("the animal", "the animal's diet plan");
+            Query.EditDietPlan(editPlan);
         }
 
         private void CheckAdoptions()
@@ -169,15 +179,42 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions(shotInfo);
                 if(UserInterface.GetBitData("Would you like to Update shots?"))
                 {
-                    Query.UpdateShot("booster", animal);
+                    Query.UpdateShot(ChooseShotType(), animal);
                 }
             }
             else
             {
                 if (UserInterface.GetBitData("This animal doesn't have any shots. Would you like to give it shots?"))
                 {
-                    Query.UpdateShot("booster", animal);
+                    
+                    Query.UpdateShot(ChooseShotType(), animal);
+                    Console.WriteLine("The shot was successfully admisistered");
                 }
+            }
+        }
+
+        private int ChooseShotType()
+        {
+            List<string> shots = new List<string>() { "What kind of shot would you like to give this animal?", "1. Rabies Vaccine", "2. Buttery Nipple", "3. Flu Shot", "4. Jager Bomb", "5. Cherry Bomb" };
+            UserInterface.DisplayUserOptions(shots);
+            int input = UserInterface.GetIntegerData();
+
+            switch (input)
+            {
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
+                case 3:
+                    return 3;
+                case 4:
+                    return 4;
+                case 5:
+                    return 5;
+                default:
+                    Console.WriteLine("Please enter a valid response!");
+                    ChooseShotType();
+                    return 6;
             }
         }
 
