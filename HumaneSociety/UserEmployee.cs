@@ -57,11 +57,20 @@ namespace HumaneSociety
                     EditMeal();
                     RunUserMenus();
                     return;
+                case "6":
+                    ViewRoom();
+                    RunUserMenus();
+                    return;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please try again");
                     RunUserMenus();
                     return;
             }
+        }
+
+        private void ViewRoom()
+        {
+            UserInterface.DisplayRoomInUse();
         }
 
         private void EditMeal()
@@ -131,10 +140,10 @@ namespace HumaneSociety
             bool isFinished = false;
             Console.Clear();
             while(!isFinished){
-                List<string> options = new List<string>() { "Animal found:", animal.Name, animal.Category.Name, "Would you like to:", "1. Get Info", "2. Update Info", "3. Check shots", "4. Return" };
+                List<string> options = new List<string>() { "Animal found:", animal.Name, animal.Category.Name, "Would you like to:", "1. Get Info", "2. Update Info", "3. Check shots", "4. Change Room", "5. Return" };
                 UserInterface.DisplayUserOptions(options);
                 int input = UserInterface.GetIntegerData();
-                if (input == 4)
+                if (input == 5)
                 {
                     isFinished = true;
                     continue;
@@ -160,10 +169,20 @@ namespace HumaneSociety
                     CheckShots(animal);
                     Console.Clear();
                     return;
+                case 4:
+                    ChangeRoom();
+                    Console.Clear();
+                    return;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please select a menu choice");
                     return;
             }
+        }
+
+        private void ChangeRoom()
+        {
+            Query.ChangeAnimalRoom();
+            Query.MoveAnimal();
         }
 
         private void CheckShots(Animal animal)

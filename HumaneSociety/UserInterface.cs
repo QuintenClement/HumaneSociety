@@ -39,6 +39,18 @@ namespace HumaneSociety
             return input;
         }
 
+        internal static void DisplayRoomInUse()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Console.Clear();
+            Console.WriteLine("Rooms currently used:\n");
+            var room = db.Rooms.Select(r => r).ToList();
+            foreach (Room list in room)
+            {
+                Console.WriteLine("room Number: " + list.RoomNumber + " - In use by animal id: " + list.AnimalId);
+            }
+        }
+
         public static string GetStringData(string parameter, string target)
         {
             string data;

@@ -524,5 +524,21 @@ namespace HumaneSociety
             updateDietPlan.FoodAmountInCups = int.Parse(UserInterface.GetStringData("in cup serving", "The food amount"));
             db.SubmitChanges();
         }
+
+        internal static void MoveAnimal()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var duplicates = db.Rooms
+                                .GroupBy(r => r.AnimalId)
+                                .SelectMany(g => g.OrderByDescending(i => i.RoomNumber).Skip(1));
+            db.Rooms.DeleteAllOnSubmit(duplicates);
+            db.SubmitChanges();
+        }
+
+        internal static void ChangeAnimalRoom()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            CreateRoom();
+        }
     }
 }
