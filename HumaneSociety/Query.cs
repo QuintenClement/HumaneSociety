@@ -318,6 +318,7 @@ namespace HumaneSociety
         }
 
         internal static void UpdateAdoption(bool result, Adoption adoption)
+
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var updateAdoption = db.Adoptions.Where(a => a.ClientId == adoption.ClientId).First();

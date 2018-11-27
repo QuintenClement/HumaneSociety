@@ -27,7 +27,7 @@ namespace HumaneSociety
 
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption" };
+            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption", "5. Edit Meal", "6. Edit Rooms" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
@@ -96,6 +96,11 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions("Enter the number of the adoption you would like to approve");
                 int input = UserInterface.GetIntegerData();
                 ApproveAdoption(adoptions[input - 1]);
+            }
+            else
+            {
+                Console.WriteLine("No adoptions found! Returning to the main menu. Please press enter to continue");
+                Console.ReadLine();
             }
         }
 
